@@ -1,22 +1,14 @@
 const request = require('supertest')
 const { expect } = require('chai')
 require('dotenv').config()
+const { getToken } = require('../helpers/authentication')
 
 describe('transfers', () => {
 
     describe('POST /transferencias', () => {
-        it('must return sucess when transfer value is equal or above R$ 10,00', async function (){
-            
-             const responseLogin = await request (process.env.BASE_URL)
+        it('must return sucess when transfer value is equal or above R$ 10,00', async function (){         
 
-            .post('/login')
-            .set('Content-Type', 'application/json')
-            .send({
-                'username': 'julio.lima',
-                'senha': '123456'
-            })
-
-            const token = responseLogin.body.token
+            const token = await getToken('julio.lima', '123456')
 
             const response = await request(process.env.BASE_URL)
 
@@ -36,16 +28,10 @@ describe('transfers', () => {
         })
 
         it('must return 422 when transfer value is below R$ 10,00', async function () {
-             const responseLogin = await request ('http://localhost:3000')
 
-            .post('/login')
-            .set('Content-Type', 'application/json')
-            .send({
-                'username': 'julio.lima',
-                'senha': '123456'
-            })
+             const responseLogin = await request (process.env.BASE_URL)
 
-            const token = responseLogin.body.token
+            const token = await getToken('julio.lima', '123456')
 
             const response = await request('http://localhost:3000')
 
