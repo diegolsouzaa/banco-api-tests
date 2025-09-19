@@ -1,12 +1,13 @@
 const request = require('supertest')
 const { expect } = require('chai')
+require('dotenv').config()
 
 describe('transfers', () => {
 
     describe('POST /transferencias', () => {
         it('must return sucess when transfer value is equal or above R$ 10,00', async function (){
             
-             const responseLogin = await request ('http://localhost:3000')
+             const responseLogin = await request (process.env.BASE_URL)
 
             .post('/login')
             .set('Content-Type', 'application/json')
@@ -17,7 +18,7 @@ describe('transfers', () => {
 
             const token = responseLogin.body.token
 
-            const response = await request('http://localhost:3000')
+            const response = await request(process.env.BASE_URL)
 
             .post('/transferencias')
             .set('Content-Type', 'application/json')
