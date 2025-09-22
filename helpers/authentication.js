@@ -1,18 +1,18 @@
 const request = require('supertest')
 require('dotenv').config()
+const postLogin = require ('../fixtures/postLogin.json')
 
 const getToken = async (usuario, senha) => {
 
-const responseLogin = await request (process.env.BASE_URL)
+    const bodyLogin = {...postLogin}
+    const responseLogin = await request (process.env.BASE_URL)
 
-            .post('/login')
-            .set('Content-Type', 'application/json')
-            .send({
-                'username': usuario,
-                'senha': senha
-            })
+    
+    .post('/login')
+    .set('Content-Type', 'application/json')
+    .send(bodyLogin)
 
-            return responseLogin.body.token
+    return responseLogin.body.token
 
 }
 
